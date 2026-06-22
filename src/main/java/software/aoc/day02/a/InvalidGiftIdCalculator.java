@@ -1,6 +1,7 @@
 package software.aoc.day02.a;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public final class InvalidGiftIdCalculator {
 
@@ -9,13 +10,17 @@ public final class InvalidGiftIdCalculator {
     }
 
     public static long calculateSumOfInvalidIds(String input) {
-        return Arrays.stream(input.split(","))
-                .map(Range::fromString)
+        return parseRanges(input)
                 .flatMapToLong(Range::stream)
                 .mapToObj(GiftId::new)
                 .filter(GiftId::isInvalid)
                 .mapToLong(GiftId::value)
                 .sum();
+    }
+
+    private static Stream<Range> parseRanges(String input) {
+        return Arrays.stream(input.replaceAll("\\s+", "").split(","))
+                .map(Range::fromString);
     }
 
     public static boolean isInvalidId(long id) {
