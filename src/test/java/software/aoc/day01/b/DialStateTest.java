@@ -1,7 +1,6 @@
 package software.aoc.day01.b;
 
 import org.junit.jupiter.api.Test;
-import software.aoc.day01.a.DialState;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
