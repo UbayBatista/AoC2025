@@ -21,9 +21,10 @@ El desarrollo del proyecto se rige por los siguientes estándares teóricos:
 
 A continuación, se detalla el progreso diario, destacando los patrones y principios clave aplicados en cada solución. El análisis profundo y los diagramas UML se encuentran en la documentación específica de cada día en la carpeta `doc/`.
 
-| Día | Reto | Patrones de Diseño | Principios y Técnicas Destacadas | Documentación |
-| :---: | :--- | :--- | :--- | :--- |
-| **01** | *Pendiente* | - | - | - |
+|   Día    | Reto        | Patrones de Diseño | Principios y Técnicas Destacadas | Documentación |
+|:--------:|:------------| :--- | :--- | :--- |
+|   01-A   | Secret Entrance (A) | Factory Method | SRP, DIP, DRY | [day01-a.md](doc/day01-a.md) |
+| **01-B** | *Pendiente* | - | - | - |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.
