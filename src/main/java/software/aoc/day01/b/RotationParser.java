@@ -1,6 +1,11 @@
 package software.aoc.day01.b;
 
 public class RotationParser {
+
+    private RotationParser() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
+
     public static int parse(String instruction) {
         return signOf(instruction) * valueOf(instruction);
     }
