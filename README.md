@@ -24,7 +24,8 @@ A continuación, se detalla el progreso diario, destacando los patrones y princi
 |   Día    | Reto        | Patrones de Diseño | Principios y Técnicas Destacadas | Documentación |
 |:--------:|:------------| :--- | :--- | :--- |
 |   01-A   | Secret Entrance (A) | Factory Method | SRP, DIP, DRY | [day01-a.md](doc/day01-a.md) |
-| **01-B** | *Pendiente* | - | - | - |
+|   01-B   | Secret Entrance (B) | Factory Method | SRP, Streams API | [day01-b.md](doc/day01-b.md) |
+| **02-A** | *Pendiente* | - | - | - |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.
