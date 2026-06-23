@@ -27,7 +27,8 @@ A continuación, se detalla el progreso diario, destacando los patrones y princi
 |   01-B   | Secret Entrance (B) | Factory Method | SRP, Streams API | [day01-b.md](doc/day01-b.md) |
 |   02-A   | Gift Shop (A) | - | SRP, KISS, YAGNI | [day02-a.md](doc/day02-a.md) |
 |   02-B   | Gift Shop (B) | - | SRP, OCP | [day02-b.md](doc/day02-b.md) |
-| **03-A** | *Pendiente* | - | - | - |
+| 03-A | Lobby (A) | - | SRP, KISS | [day03-a.md](doc/day03-a.md) |
+| **03-B** | *Pendiente* | - | - | - |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.

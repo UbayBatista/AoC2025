@@ -1,0 +1,16 @@
+# Día 03: Lobby (Parte A)
+
+## 1. Descripción
+El reto de la Parte A nos sitúa ante el problema de energizar una escalera mecánica mediante bancos de baterías. Cada banco está representado por una secuencia de dígitos numéricos donde cada dígito representa el voltaje de una batería individual. La regla de negocio exige seleccionar exactamente dos baterías de cada banco, manteniendo rigurosamente su orden de aparición original (índices $i < j$), de modo que el número de dos dígitos resultante sea el máximo posible. El objetivo final del dominio es calcular la sumatoria de estos voltajes máximos de todos los bancos provistos en la entrada.
+
+## 2. Metodología
+Se aplicó estrictamente el ciclo de desarrollo guiado por pruebas **TDD (Test-Driven Development)**. En la fase RED, se diseñó una suite de pruebas automatizadas mediante JUnit y AssertJ que incluía pruebas parametrizadas con los casos de ejemplo del enunciado del reto para asegurar la cobertura de diversos escenarios numéricos. Asimismo, se integraron pruebas de caja negra y de frontera para validar que las entradas inválidas o con dimensiones inferiores a la mínima operativa (menos de dos baterías) lancen de forma determinista la excepción correspondiente (`IllegalArgumentException`), garantizando una estrategia sólida de localización de defectos (*Defect Localization*).
+
+## 3. Fundamentos y Principios
+* **CAMA**: La **alta cohesión** se alcanzó confinando la lógica pura de la resolución matemática combinatoria dentro de la clase utilitaria `JoltageCalculator`, abstrayéndola completamente de cualquier infraestructura de persistencia o lectura. El **bajo acoplamiento** se materializa al usar funciones puras sin estado, lo que evita dependencias complejas o efectos secundarios en memoria.
+* **SOLID**:
+    * **SRP (Responsabilidad Única)**: Se implementó una clara separación de responsabilidades. La clase `Main` se encarga exclusivamente de la infraestructura de entrada/salida (lectura de archivos con `java.nio.file`), mientras que `JoltageCalculator` asume de forma única la responsabilidad del cálculo algorítmico.
+* **Clean Code**:
+    * Se estructuró el componente de dominio mediante la descomposición en **micro-métodos** (`validateBank` y `computeJoltageForPair`), permitiendo que el método principal opere en un único nivel de abstracción conceptual y autoexplicativo (*Good Naming*).
+    * Al ser una clase de funciones puras sin estado, se aplicó programación defensiva bloqueando la instanciación y el uso malicioso de la reflexión (*Reflection*) mediante un constructor privado que arroja una excepción `UnsupportedOperationException`.
+* **Paradigma Funcional y Streams API**: Se sustituyó por completo la iteración imperativa tradicional (bucles anidados `for`) por un enfoque puramente declarativo. Se empleó `IntStream.range` combinado con un mapeo plano (`flatMap`) para proyectar el espacio bidimensional de índices de forma inmutable. La resolución del valor máximo se gestionó de forma segura mediante la mónada `OptionalInt` devuelta por el operador terminal `.max()`.
