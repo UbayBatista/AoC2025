@@ -1,0 +1,16 @@
+# Día 04: Printing Department (Parte B)
+
+## 1. Descripción
+El reto de la Parte B introduce una dinámica de evolución temporal sobre el almacén bidimensional. El objetivo es calcular el número total de rollos de papel retirados por las carretillas elevadoras a través de un proceso en cascada. Cuando un subconjunto de rollos cumple la condición de accesibilidad (menos de cuatro vecinos adyacentes), estos son eliminados de la cuadrícula. Esta modificación topológica genera un nuevo estado en el que otros rollos, previamente bloqueados, pueden volverse accesibles. El proceso se itera hasta alcanzar un estado estacionario donde ningún rollo adicional puede ser retirado.
+
+## 2. Metodología
+Se mantuvo el ciclo **TDD (Test-Driven Development)** bajo una estricta política de no regresión. En la fase RED, se conservó intacta la suite de pruebas de la Parte A para garantizar que la nueva lógica no corrompiera la regla base de accesibilidad. Se añadieron nuevas pruebas para simular el efecto cascada (ejemplo del enunciado) y aislar el caso base (extracción única de un rollo aislado). Durante la fase GREEN, se adoptó directamente un enfoque puramente funcional basado en recursividad, lo que permitió satisfacer los requisitos de inmutabilidad desde el primer momento, integrando la refactorización (uso del operador ternario) como parte del proceso de consolidación.
+
+## 3. Fundamentos y Principios
+* **CAMA**: Se garantizó un **bajo acoplamiento temporal** mediante el uso estricto de la inmutabilidad. El método `remove` proyecta una nueva instancia de `PaperGrid` en cada iteración del proceso en cascada, evitando la mutabilidad compartida o los efectos secundarios sobre la colección original de coordenadas.
+* **SOLID**:
+    * **OCP (Principio Abierto/Cerrado)**: La clase `PaperGrid` se extendió con la nueva funcionalidad de eliminación recursiva y conteo acumulativo, pero permaneció completamente cerrada a la modificación respecto a la regla de negocio fundamental (`isAccessible`), demostrando un diseño resiliente a la evolución de requisitos.
+* **Clean Code**:
+    * **Ocultación de Información**: Se empleó la sobrecarga de métodos (*Method Overloading*) para encapsular la complejidad algorítmica. El cliente (`Main`) interactúa con el contrato público sin parámetros (`countTotalRemovedRolls()`), mientras que la clase oculta el método estático y privado que gestiona la recursión y el acumulador de estado.
+    * **DRY (Don't Repeat Yourself)**: Se optimizó la eficiencia algorítmica almacenando el resultado del cálculo espacial en una variable local (`accessible`) y utilizando el operador ternario, evitando así la reevaluación redundante de los flujos de datos.
+* **Paradigma Funcional**: Para gobernar la transición temporal entre estados sucesivos de la cuadrícula sin recurrir a estructuras de control imperativas y mutables (bucles `while` o `for`), se implementó un diseño basado en **recursión pura**. Las operaciones de filtrado e instanciación de nuevos estados se delegaron íntegramente a la API de `Streams`.

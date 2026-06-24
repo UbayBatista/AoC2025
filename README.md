@@ -30,7 +30,8 @@ A continuación, se detalla el progreso diario, destacando los patrones y princi
 |   03-A   | Lobby (A) | - | SRP, KISS | [day03-a.md](doc/day03-a.md) |
 |   03-B   | Lobby (B)  | Facade | DDD, SRP | [day03-b.md](doc/day03-b.md) |
 |   04-A   | Printing Department (A) | Factory Method | SRP, Ley de Demeter | [day04-a.md](doc/day04-a.md) |
-| **04-B** | *Pendiente* | - | - | - |
+|   04-B   | Printing Department (B) | Factory Method | OCP, DRY | [day04-b.md](doc/day04-b.md) |
+| **05-A** | *Pendiente* | - | - | - |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.
