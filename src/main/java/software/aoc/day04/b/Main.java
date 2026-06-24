@@ -12,7 +12,7 @@ public final class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        printAccessibleRolls(readInput());
+        printTotalRemovedRolls(readInput());
     }
 
     private static List<String> readInput() throws Exception {
@@ -23,7 +23,7 @@ public final class Main {
         return Paths.get("src/main/resources/day04/input.txt");
     }
 
-    private static void printAccessibleRolls(List<String> input) {
+    private static void printTotalRemovedRolls(List<String> input) {
         System.out.println("Result: " + PaperGrid.from(input).countTotalRemovedRolls());
     }
 }
