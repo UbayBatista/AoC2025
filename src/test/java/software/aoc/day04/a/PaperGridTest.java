@@ -1,8 +1,6 @@
 package software.aoc.day04.a;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +20,7 @@ public class PaperGridTest {
                 ".@@@@@@@@.",
                 "@.@.@@@.@."
         );
-        Assertions.assertThat(PaperGrid.from(input).countAccessibleRolls()).isEqualTo(13);
+        assertThat(PaperGrid.from(input).countAccessibleRolls()).isEqualTo(13);
     }
 
     @Test
