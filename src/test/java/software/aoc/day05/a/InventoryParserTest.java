@@ -18,9 +18,9 @@ public class InventoryParserTest {
         InventoryData data = InventoryParser.parse(input);
 
         assertThat(data.ranges()).containsExactly(
-                new IngredientRange(3, 5),
-                new IngredientRange(10, 14)
+                new IngredientRange(3L, 5L),
+                new IngredientRange(10L, 14L)
         );
-        assertThat(data.availableIds()).containsExactly(1, 5);
+        assertThat(data.availableIds()).containsExactly(1L, 5L);
     }
 }

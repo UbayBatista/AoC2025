@@ -9,13 +9,13 @@ public class FreshIngredientCounterTest {
     @Test
     public void should_count_fresh_ingredients_correctly() {
         List<IngredientRange> ranges = List.of(
-                new IngredientRange(3, 5),
-                new IngredientRange(10, 14),
-                new IngredientRange(16, 20),
-                new IngredientRange(12, 18)
+                new IngredientRange(3L, 5L),
+                new IngredientRange(10L, 14L),
+                new IngredientRange(16L, 20L),
+                new IngredientRange(12L, 18L)
         );
-        List<Integer> availableIds = List.of(1, 5, 8, 11, 17, 32);
+        List<Long> availableIds = List.of(1L, 5L, 8L, 11L, 17L, 32L);
 
-        assertThat(new FreshIngredientCounter(ranges).countFresh(availableIds)).isEqualTo(3);
+        assertThat(new FreshIngredientCounter(ranges).countFresh(availableIds)).isEqualTo(3L);
     }
 }
