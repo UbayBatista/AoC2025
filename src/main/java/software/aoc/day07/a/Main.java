@@ -12,7 +12,7 @@ public final class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        printGrandTotal(readInput());
+        printSplitCount(readInput());
     }
 
     private static List<String> readInput() throws Exception {
@@ -23,7 +23,7 @@ public final class Main {
         return Paths.get("src/main/resources/day07/input.txt");
     }
 
-    private static void printGrandTotal(List<String> input) {
+    private static void printSplitCount(List<String> input) {
         System.out.println("Result: " + new TachyonManifold(input).simulate());
     }
 }
