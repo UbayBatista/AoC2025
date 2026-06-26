@@ -38,7 +38,8 @@ A continuación, se detalla el progreso diario, destacando los patrones y princi
 |   07-A   | Laboratories (A) | Factory Method | SRP, COI | [day07-a.md](doc/day07-a.md) |
 |   07-B   | Laboratories (B) | - | SRP, SLAP | [day07-b.md](doc/day07-b.md) |
 |   08-A   | Playground (A) | - | SRP, SLAP, DSU (Union-Find) | [day08-a.md](doc/day08-a.md) |
-| **08-B** | *Pendiente* | - | - | - |
+|   08-B   | Playground (B) | - | OCP, Algoritmo de Kruskal | [day08-b.md](doc/day08-b.md) |
+| **09-A** | *Pendiente* | - | - | - |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.
