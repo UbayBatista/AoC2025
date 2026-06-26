@@ -31,7 +31,7 @@ public final class WorksheetParser {
 
     private static boolean isColumnEmpty(List<String> rawInput, int col) {
         return rawInput.stream()
-                .allMatch(line -> line.length() <= col || line.charAt(col) == ' ');
+                .allMatch(line -> getSafeChar(line, col) == ' ');
     }
 
     private static Problem parseBlock(List<String> rawInput, int start, int end) {
@@ -60,5 +60,9 @@ public final class WorksheetParser {
     private static String extractSafely(String line, int start, int end) {
         if (start >= line.length()) return "";
         return line.substring(start, Math.min(end, line.length()));
+    }
+
+    private static char getSafeChar(String line, int col) {
+        return col < line.length() ? line.charAt(col) : ' ';
     }
 }
