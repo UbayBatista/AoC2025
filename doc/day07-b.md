@@ -1,0 +1,17 @@
+# Día 07: Laboratories (Parte B)
+
+## 1. Descripción
+La Parte B del reto introduce un cambio de paradigma en las reglas físicas del dominio: se transiciona de una mecánica de taquiones clásica a una interpretación cuántica (multiverso). Bajo esta nueva premisa, al encontrar un divisor (`^`), el haz no se divide físicamente en el mismo espacio, sino que el universo se bifurca creando dos líneas temporales distintas. Consecuentemente, cuando dos o más trayectorias convergen en la misma coordenada espacial, no deben deduplicarse (fusionarse de forma destructiva), sino que las líneas temporales concurrentes deben sumarse aditivamente. El objetivo es calcular la cardinalidad total de líneas temporales activas al finalizar el recorrido topológico.
+
+## 2. Metodología
+Se mantuvo de forma estricta el ciclo **TDD** (Red/Green/Refactor). La alteración de las leyes físicas exigió rediseñar los contratos de las pruebas unitarias para que verificasen mapas de frecuencias en lugar de conjuntos de coordenadas únicas. Esta aproximación permitió validar el comportamiento de bifurcación cuántica y la convergencia aditiva de forma aislada, garantizando la correcta transición de estados espaciales antes de ensamblar la simulación topológica completa.
+
+## 3. Fundamentos y Principios
+* **CAMA y SOLID**:
+    * **Alta Cohesión y SRP**: El diseño reafirma la separación de responsabilidades. `TachyonManifold` continúa operando exclusivamente como el orquestador del espacio, mientras que `BeamPropagator` asume íntegramente la complejidad matemática de la ramificación cuántica. `PropagationStep` fue simplificado para actuar como un DTO inmutable puro, elevando su cohesión al desvincularse de lógicas de combinación.
+* **Clean Code**:
+    * **SLAP (Single Level of Abstraction Principle)**: La instanciación de los flujos cuánticos se ha encapsulado en micro-métodos puros (`splitQuantumTimelines` y `preserveQuantumTimeline`). Esto garantiza que el método evaluador principal hable exclusivamente en términos de la lógica de negocio (el *qué*), delegando los detalles de construcción de la API de Streams (el *cómo*) a funciones de menor nivel.
+    * **Good Naming**: Se aplicó una corrección léxica en la clase `Main`, renombrando la función de salida a `printTotalTimelines` para reflejar unívocamente la intención y el vocabulario del nuevo dominio, favoreciendo la legibilidad sin necesidad de comentarios.
+* **Paradigma Funcional**:
+    * **Mapeo de Frecuencias (Map)**: Se sustituyó la estructura `Set` por `Map<Integer, Long>`. La clave representa la coordenada espacial y el valor encapsula la cantidad de líneas temporales concurrentes. Esta decisión modela con precisión la matemática del multiverso requerida por el dominio.
+    * **Streams y Acumulación Declarativa**: Para gestionar la convergencia cuántica sin incurrir en lógicas condicionales superfluas ni bucles iterativos, se proyectaron las bifurcaciones mediante `flatMap`. Posteriormente, se utilizó el colector `Collectors.toMap` inyectando la función de referencia `Long::sum`. Esto delega la consolidación de claves duplicadas (múltiples líneas temporales incidiendo en la misma columna) a una resolución puramente funcional y aditiva.

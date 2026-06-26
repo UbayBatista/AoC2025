@@ -36,7 +36,8 @@ A continuación, se detalla el progreso diario, destacando los patrones y princi
 |   06-A   | Trash Compactor (A) | Patrón Strategy (Enum) | SRP, OCP | [day06-a.md](doc/day06-a.md) |
 |   06-B   | Trash Compactor (B) | Patrón Strategy (Enum) | OCP, DRY | [day06-b.md](doc/day06-b.md) |
 |   07-A   | Laboratories (A) | Factory Method | SRP, COI | [day07-a.md](doc/day07-a.md) |
-| **07-B** | *Pendiente* | - | - | - |
+|   07-B   | Laboratories (B) | - | SRP, SLAP | [day07-b.md](doc/day07-b.md) |
+| **08-A** | *Pendiente* | - | - | - |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.
