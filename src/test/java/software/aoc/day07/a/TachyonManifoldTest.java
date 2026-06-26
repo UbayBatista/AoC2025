@@ -2,6 +2,7 @@ package software.aoc.day07.a;
 
 import org.junit.jupiter.api.Test;
 import java.util.List;
+import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TachyonManifoldTest {
