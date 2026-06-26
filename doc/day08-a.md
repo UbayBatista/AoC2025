@@ -1,0 +1,20 @@
+# Día 08: Playground (Parte A)
+
+## 1. Descripción
+La Parte A del reto plantea un problema de optimización topológica y de teoría de grafos. Dada una lista de coordenadas tridimensionales que representan cajas de conexiones, el objetivo es establecer enlaces físicos entre ellas priorizando las distancias más cortas en línea recta. Se requiere procesar de forma estricta las 1000 conexiones más próximas. Matemáticamente, las cajas representan los vértices de un grafo y las distancias sus aristas. La solución exige modelar la formación de estos circuitos, resolver las uniones y aislar los clústeres resultantes para calcular el producto escalar de las cardinalidades de los tres circuitos de mayor tamaño.
+
+## 2. Metodología
+El desarrollo se guió mediante el ciclo estricto **TDD** (Red/Green/Refactor). Para favorecer la localización de defectos (Defect Localization) y asegurar una evaluación granular, las pruebas se segmentaron en tres unidades independientes: `JunctionBoxTest`, `CircuitTrackerTest` y `PlaygroundTest`. Esta división asegura que un fallo estructural en el dominio geométrico no contamine la evaluación de la algoritmia de uniones, y viceversa.
+
+## 3. Fundamentos y Principios
+* **CAMA y SOLID**:
+    * **Alta Cohesión y SRP**: El diseño se particionó en entidades focalizadas. `JunctionBox` es el modelo matemático puro para coordenadas y distancias. `Connection` actúa como arista inmutable. `CircuitTracker` encapsula exclusivamente la lógica de la estructura algorítmica. Finalmente, `Playground` orquesta los flujos de información sin conocer los pormenores de la representación en memoria.
+    * **Ley de Deméter (Bajo Acoplamiento)**: Los componentes interaccionan a través de interfaces explícitas. `Playground` extrae información y emite comandos, sin manipular las variables internas de los nodos ni las tablas de asignación del gestor de circuitos.
+* **Clean Code**:
+    * **SLAP (Single Level of Abstraction Principle)**: La clase orquestadora `Playground` expone la función principal delegando la ejecución a micro-métodos (`applyShortestConnections` y `computeProductOfLargestCircuits`). Esto permite que el flujo de ejecución se lea secuencialmente y al mismo nivel de abstracción (el *qué*), aislando la complejidad de las operaciones subyacentes.
+    * **Inmutabilidad Absoluta**: Se utilizaron estructuras `record` de Java para `JunctionBox` y `Connection`, garantizando un estado inmutable esencial para operar de manera segura en un entorno funcional.
+    * **Constructores Defensivos**: El punto de entrada `Main` fue diseñado como una clase utilitaria final, con un constructor privado que arroja `UnsupportedOperationException`, bloqueando el instanciamiento erróneo.
+* **Paradigma Funcional y Algoritmia Avanzada**:
+    * **Estructura Disjoint Set Union (DSU)**: Para la gestión de circuitos, se implementó el algoritmo algorítmico *Union-Find* apoyado en las heurísticas de compresión de caminos (*path compression*) y unión por tamaño (*union by size*). Esta técnica asegura una complejidad temporal casi constante $O(\alpha(n))$ en la resolución de conjuntos conexos.
+    * **Ausencia de Control Flujo Imperativo (If-Else)**: Para alcanzar un diseño puramente declarativo y reducir la complejidad ciclomática, se eliminaron por completo las bifurcaciones lógicas. En su lugar, se empleó la mónada `Optional` para el filtrado seguro de raíces y el operador ternario para las asignaciones matemáticas de fusión.
+    * **Composición Funcional (Streams)**: Las combinaciones cruzadas de todos los vértices del grafo se realizaron encapsulando índices mediante `IntStream.range` y `flatMap`, eliminando la necesidad de bucles iterativos anidados. La ordenación, limitación y reducción se ejecutaron de manera íntegramente secuencial y declarativa en el *pipeline* del Stream.
