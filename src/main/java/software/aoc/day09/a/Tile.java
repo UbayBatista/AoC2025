@@ -1,12 +1,17 @@
 package software.aoc.day09.a;
 
+import static java.lang.Long.parseLong;
+
 public record Tile(long x, long y) {
 
-    public static Tile fromString(String line) {
-        String[] coordinates = line.split(",");
+    public static Tile fromString(String tileCoordinates) {
+        return parse(tileCoordinates.split(","));
+    }
+
+    private static Tile parse(String[] tileCoordinates) {
         return new Tile(
-                Long.parseLong(coordinates[0].trim()),
-                Long.parseLong(coordinates[1].trim())
+                parseLong(tileCoordinates[0].trim()),
+                parseLong(tileCoordinates[1].trim())
         );
     }
 
