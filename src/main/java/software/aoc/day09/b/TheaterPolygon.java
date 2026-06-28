@@ -2,8 +2,6 @@ package software.aoc.day09.b;
 
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 public class TheaterPolygon {
 
@@ -13,71 +11,140 @@ public class TheaterPolygon {
         this.vertices = List.copyOf(vertices);
     }
 
-    public boolean containsRectangle(Tile t1, Tile t2) {
-        return generateRectangleTiles(t1, t2).allMatch(this::containsTile);
+    public boolean containsRectangle(Tile pointA, Tile pointB) {
+        return areAllCornersInside(pointA, pointB) && !doesAnyPolygonSegmentIntersectInterior(pointA, pointB);
     }
 
-    private Stream<Tile> generateRectangleTiles(Tile t1, Tile t2) {
-        return LongStream.rangeClosed(Math.min(t1.x(), t2.x()), Math.max(t1.x(), t2.x()))
-                .boxed()
-                .flatMap(x -> LongStream.rangeClosed(Math.min(t1.y(), t2.y()), Math.max(t1.y(), t2.y()))
-                        .mapToObj(y -> new Tile(x, y)));
+    private boolean areAllCornersInside(Tile pointA, Tile pointB) {
+        return rectangleCorners(pointA, pointB).stream().allMatch(this::isInside);
     }
 
-    private boolean containsTile(Tile tile) {
-        return isOnBoundary(tile) || isInsidePolygon(tile);
+    private List<Tile> rectangleCorners(Tile pointA, Tile pointB) {
+        return List.of(
+                pointA,
+                pointB,
+                new Tile(pointA.x(), pointB.y()),
+                new Tile(pointB.x(), pointA.y())
+        );
     }
 
-    private boolean isOnBoundary(Tile tile) {
+    private boolean doesAnyPolygonSegmentIntersectInterior(Tile pointA, Tile pointB) {
+        long minX = Math.min(pointA.x(), pointB.x());
+        long maxX = Math.max(pointA.x(), pointB.x());
+        long minY = Math.min(pointA.y(), pointB.y());
+        long maxY = Math.max(pointA.y(), pointB.y());
+
         return IntStream.range(0, vertices.size())
-                .anyMatch(i -> isPointOnOrthogonalSegment(
-                        tile,
+                .anyMatch(i -> segmentIntersectsInterior(
                         vertices.get(i),
-                        vertices.get((i + 1) % vertices.size())
+                        vertices.get((i + 1) % vertices.size()),
+                        minX, maxX, minY, maxY
                 ));
     }
 
-    private boolean isPointOnOrthogonalSegment(Tile p, Tile v1, Tile v2) {
-        return isPointOnVerticalSegment(p, v1, v2) || isPointOnHorizontalSegment(p, v1, v2);
+    private boolean segmentIntersectsInterior(Tile v1, Tile v2, long minX, long maxX, long minY, long maxY) {
+        return isVerticalIntersection(v1, v2, minX, maxX, minY, maxY) ||
+                isHorizontalIntersection(v1, v2, minX, maxX, minY, maxY);
     }
 
-    private boolean isPointOnVerticalSegment(Tile p, Tile v1, Tile v2) {
-        return p.x() == v1.x() && p.x() == v2.x() && isBetween(p.y(), v1.y(), v2.y());
+    private boolean isVerticalIntersection(Tile v1, Tile v2, long minX, long maxX, long minY, long maxY) {
+        return isSegmentVertical(v1, v2) &&
+                isStrictlyBetween(v1.x(), minX, maxX) &&
+                isOverlapping(v1.y(), v2.y(), minY, maxY);
     }
 
-    private boolean isPointOnHorizontalSegment(Tile p, Tile v1, Tile v2) {
-        return p.y() == v1.y() && p.y() == v2.y() && isBetween(p.x(), v1.x(), v2.x());
+    private boolean isHorizontalIntersection(Tile v1, Tile v2, long minX, long maxX, long minY, long maxY) {
+        return isSegmentHorizontal(v1, v2) &&
+                isStrictlyBetween(v1.y(), minY, maxY) &&
+                isOverlapping(v1.x(), v2.x(), minX, maxX);
     }
 
-    private boolean isBetween(long value, long bound1, long bound2) {
-        return value >= Math.min(bound1, bound2) && value <= Math.max(bound1, bound2);
+    private boolean isSegmentVertical(Tile segmentStart, Tile segmentEnd) {
+        return segmentStart.x() == segmentEnd.x();
     }
 
-    private boolean isInsidePolygon(Tile tile) {
-        return countRayIntersections(tile) % 2 != 0;
+    private boolean isSegmentHorizontal(Tile segmentStart, Tile segmentEnd) {
+        return segmentStart.y() == segmentEnd.y();
     }
 
-    private long countRayIntersections(Tile tile) {
+    private boolean isStrictlyBetween(long value, long min, long max) {
+        return value > min && value < max;
+    }
+
+    private boolean isOverlapping(long bound1, long bound2, long min, long max) {
+        return Math.min(bound1, bound2) < max && Math.max(bound1, bound2) > min;
+    }
+
+    private boolean isInside(Tile point) {
+        return hasOddIntersections(point) || isOnBoundary(point);
+    }
+
+    private boolean hasOddIntersections(Tile point) {
+        return countIntersections(point) % 2 != 0;
+    }
+
+    private long countIntersections(Tile point) {
         return IntStream.range(0, vertices.size())
-                .filter(i -> intersectsRay(tile, vertices.get(i), vertices.get((i + 1) % vertices.size())))
+                .filter(i -> rayIntersects(point, vertices.get(i), vertices.get((i + 1) % vertices.size())))
                 .count();
     }
 
-    private boolean intersectsRay(Tile tile, Tile v1, Tile v2) {
-        return isVerticalSegment(v1, v2) &&
-                isRayIntersectingVerticalBounds(tile, v1, v2) &&
-                isRayStartingBeforeSegment(tile, v1);
+    private boolean rayIntersects(Tile point, Tile segmentStart, Tile segmentEnd) {
+        if (isSegmentHorizontal(segmentStart, segmentEnd)) return false;
+        return isRayVerticallyAligned(point, segmentStart, segmentEnd)
+                && isIntersectionToRightOfPoint(point, computeIntersectionX(point, segmentStart, segmentEnd));
     }
 
-    private boolean isVerticalSegment(Tile v1, Tile v2) {
-        return v1.x() == v2.x();
+    private double computeIntersectionX(Tile point, Tile segmentStart, Tile segmentEnd) {
+        double dySegment = segmentEnd.y() - segmentStart.y();
+        double dxSegment = segmentEnd.x() - segmentStart.x();
+        double dyPoint = point.y() - segmentStart.y();
+        return segmentStart.x() + dyPoint * dxSegment / dySegment;
     }
 
-    private boolean isRayIntersectingVerticalBounds(Tile tile, Tile v1, Tile v2) {
-        return tile.y() > Math.min(v1.y(), v2.y()) && tile.y() <= Math.max(v1.y(), v2.y());
+    private boolean isRayVerticallyAligned(Tile point, Tile segmentStart, Tile segmentEnd) {
+        return point.y() >= Math.min(segmentStart.y(), segmentEnd.y())
+                && point.y() <  Math.max(segmentStart.y(), segmentEnd.y());
     }
 
-    private boolean isRayStartingBeforeSegment(Tile tile, Tile v1) {
-        return tile.x() < v1.x();
+    private boolean isIntersectionToRightOfPoint(Tile point, double intersectX) {
+        return point.x() < intersectX;
+    }
+
+    private boolean isOnBoundary(Tile point) {
+        return IntStream.range(0, vertices.size())
+                .anyMatch(i -> isPointOnSegment(point, vertices.get(i), vertices.get((i + 1) % vertices.size())));
+    }
+
+    private boolean isPointOnSegment(Tile point, Tile segmentStart, Tile segmentEnd) {
+        return isCollinear(point, segmentStart, segmentEnd) &&
+                isWithinBounds(point, segmentStart, segmentEnd);
+    }
+
+    private boolean isCollinear(Tile point, Tile segmentStart, Tile segmentEnd) {
+        return crossProduct(segmentStart, segmentEnd, point) == 0;
+    }
+
+    private long crossProduct(Tile segmentStart, Tile segmentEnd, Tile point) {
+        long segmentDx = segmentEnd.x() - segmentStart.x();
+        long segmentDy = segmentEnd.y() - segmentStart.y();
+        long pointDx = point.x() - segmentStart.x();
+        long pointDy = point.y() - segmentStart.y();
+        return segmentDx * pointDy - segmentDy * pointDx;
+    }
+
+    private boolean isWithinBounds(Tile point, Tile segmentStart, Tile segmentEnd) {
+        return isWithinXBounds(point, segmentStart, segmentEnd) &&
+                isWithinYBounds(point, segmentStart, segmentEnd);
+    }
+
+    private boolean isWithinXBounds(Tile point, Tile segmentStart, Tile segmentEnd) {
+        return point.x() >= Math.min(segmentStart.x(), segmentEnd.x()) &&
+                point.x() <= Math.max(segmentStart.x(), segmentEnd.x());
+    }
+
+    private boolean isWithinYBounds(Tile point, Tile segmentStart, Tile segmentEnd) {
+        return point.y() >= Math.min(segmentStart.y(), segmentEnd.y()) &&
+                point.y() <= Math.max(segmentStart.y(), segmentEnd.y());
     }
 }

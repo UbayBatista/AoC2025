@@ -22,19 +22,15 @@ public class MovieTheater {
 
     public long calculateLargestValidRectangleArea() {
         return tiles.stream()
-                .flatMapToLong(this::calculateValidAreasWithAllTiles)
+                .flatMapToLong(t1 -> tiles.stream()
+                        .filter(t2 -> polygon.containsRectangle(t1, t2))
+                        .mapToLong(t1::calculateAreaWith))
                 .max()
                 .orElse(0L);
     }
 
     private LongStream calculateAreasWithAllTiles(Tile referenceTile) {
         return tiles.stream()
-                .mapToLong(referenceTile::calculateAreaWith);
-    }
-
-    private LongStream calculateValidAreasWithAllTiles(Tile referenceTile) {
-        return tiles.stream()
-                .filter(other -> polygon.containsRectangle(referenceTile, other))
                 .mapToLong(referenceTile::calculateAreaWith);
     }
 }
