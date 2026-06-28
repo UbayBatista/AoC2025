@@ -11,7 +11,7 @@ public class MovieTheaterTest {
 
     @BeforeEach
     public void setUp() {
-        List<Tile> tiles = List.of(
+        this.tiles = List.of(
                 new Tile(7, 1),
                 new Tile(11, 1),
                 new Tile(11, 7),
