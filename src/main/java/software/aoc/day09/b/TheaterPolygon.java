@@ -42,21 +42,21 @@ public class TheaterPolygon {
                 ));
     }
 
-    private boolean segmentIntersectsInterior(Tile v1, Tile v2, long minX, long maxX, long minY, long maxY) {
-        return isVerticalIntersection(v1, v2, minX, maxX, minY, maxY) ||
-                isHorizontalIntersection(v1, v2, minX, maxX, minY, maxY);
+    private boolean segmentIntersectsInterior(Tile segmentStart, Tile segmentEnd, long rectangleMinX, long rectangleMaxX, long rectangleMinY, long rectangleMaxY) {
+        return isVerticalIntersection(segmentStart, segmentEnd, rectangleMinX, rectangleMaxX, rectangleMinY, rectangleMaxY) ||
+                isHorizontalIntersection(segmentStart, segmentEnd, rectangleMinX, rectangleMaxX, rectangleMinY, rectangleMaxY);
     }
 
-    private boolean isVerticalIntersection(Tile v1, Tile v2, long minX, long maxX, long minY, long maxY) {
-        return isSegmentVertical(v1, v2) &&
-                isStrictlyBetween(v1.x(), minX, maxX) &&
-                isOverlapping(v1.y(), v2.y(), minY, maxY);
+    private boolean isVerticalIntersection(Tile segmentStart, Tile segmentEnd, long rectangleMinX, long rectangleMaxX, long rectangleMinY, long rectangleMaxY) {
+        return isSegmentVertical(segmentStart, segmentEnd) &&
+                isCoordinateStrictlyBetween(segmentStart.x(), rectangleMinX, rectangleMaxX) &&
+                rangesOverlap(segmentStart.y(), segmentEnd.y(), rectangleMinY, rectangleMaxY);
     }
 
-    private boolean isHorizontalIntersection(Tile v1, Tile v2, long minX, long maxX, long minY, long maxY) {
-        return isSegmentHorizontal(v1, v2) &&
-                isStrictlyBetween(v1.y(), minY, maxY) &&
-                isOverlapping(v1.x(), v2.x(), minX, maxX);
+    private boolean isHorizontalIntersection(Tile segmentStart, Tile segmentEnd, long rectangleMinX, long rectangleMaxX, long rectangleMinY, long rectangleMaxY) {
+        return isSegmentHorizontal(segmentStart, segmentEnd) &&
+                isCoordinateStrictlyBetween(segmentStart.y(), rectangleMinY, rectangleMaxY) &&
+                rangesOverlap(segmentStart.x(), segmentEnd.x(), rectangleMinX, rectangleMaxX);
     }
 
     private boolean isSegmentVertical(Tile segmentStart, Tile segmentEnd) {
@@ -67,12 +67,12 @@ public class TheaterPolygon {
         return segmentStart.y() == segmentEnd.y();
     }
 
-    private boolean isStrictlyBetween(long value, long min, long max) {
-        return value > min && value < max;
+    private boolean isCoordinateStrictlyBetween(long coordinate, long rectangleMinBound, long rectangleMaxBound) {
+        return coordinate > rectangleMinBound && coordinate < rectangleMaxBound;
     }
 
-    private boolean isOverlapping(long bound1, long bound2, long min, long max) {
-        return Math.min(bound1, bound2) < max && Math.max(bound1, bound2) > min;
+    private boolean rangesOverlap(long segmentStart, long segmentEnd, long rectangleMinBound, long rectangleMaxBound) {
+        return Math.min(segmentStart, segmentEnd) < rectangleMaxBound && Math.max(segmentStart, segmentEnd) > rectangleMinBound;
     }
 
     private boolean isInside(Tile point) {
@@ -118,7 +118,7 @@ public class TheaterPolygon {
 
     private boolean isPointOnSegment(Tile point, Tile segmentStart, Tile segmentEnd) {
         return isCollinear(point, segmentStart, segmentEnd) &&
-                isWithinBounds(point, segmentStart, segmentEnd);
+                isPointWithinSegmentRange(point, segmentStart, segmentEnd);
     }
 
     private boolean isCollinear(Tile point, Tile segmentStart, Tile segmentEnd) {
@@ -133,7 +133,7 @@ public class TheaterPolygon {
         return segmentDx * pointDy - segmentDy * pointDx;
     }
 
-    private boolean isWithinBounds(Tile point, Tile segmentStart, Tile segmentEnd) {
+    private boolean isPointWithinSegmentRange(Tile point, Tile segmentStart, Tile segmentEnd) {
         return isWithinXBounds(point, segmentStart, segmentEnd) &&
                 isWithinYBounds(point, segmentStart, segmentEnd);
     }
