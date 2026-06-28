@@ -40,7 +40,8 @@ A continuación, se detalla el progreso diario, destacando los patrones y princi
 |   08-A   | Playground (A) | - | SRP, SLAP, DSU (Union-Find) | [day08-a.md](doc/day08-a.md) |
 |   08-B   | Playground (B) | - | OCP, Algoritmo de Kruskal | [day08-b.md](doc/day08-b.md) |
 |   09-A   | Movie Theater (A) | Tell Don't Ask | SRP | [day09-a.md](doc/day09-a.md) |
-| **09-B** | *Pendiente* | - | - | - |
+|   09-B   | Movie Theater (B) | - | SRP, OCP, SLAP, Algoritmo de Ray-Casting | [day09-b.md](doc/day09-b.md) |
+| **10-A** | *Pendiente* | - | - | - |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.
