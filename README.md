@@ -42,7 +42,8 @@ A continuación, se detalla el progreso diario, destacando los patrones y princi
 |   09-A   | Movie Theater (A) | Tell Don't Ask | SRP | [day09-a.md](doc/day09-a.md) |
 |   09-B   | Movie Theater (B) | - | SRP, OCP, SLAP, Algoritmo de Ray-Casting | [day09-b.md](doc/day09-b.md) |
 | **10-A** | Factory (A) | Factory Method | SRP, YAGNI, Eliminación Gaussiana GF(2) | [day10-a.md](doc/day10-a.md) |
-| **10-B** | *Pendiente* | - | - | - |
+|   10-B   | Factory (B) | - | OCP, SLAP, Optimización Lineal Entera | [day10-b.md](doc/day10-b.md) |
+| **11-A** | *Pendiente* | - | - | - |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.
