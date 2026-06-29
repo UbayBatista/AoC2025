@@ -14,7 +14,7 @@ public class DeviceGraphParserTest {
                 "eee: out"
         );
 
-        assertThat(DeviceGraphParser.parse(input))
+        assertThat(DeviceGraphParser.parse(input).connections())
                 .containsEntry("aaa", List.of("you", "hhh"))
                 .containsEntry("you", List.of("bbb", "ccc"))
                 .containsEntry("eee", List.of("out"));
