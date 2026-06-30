@@ -23,7 +23,7 @@ Las pruebas se aislaron de manera granular para garantizar una correcta localiza
 * **Paradigma Funcional e Inmutabilidad**: La entidad `DialState` es un `record` puramente inmutable. Toda la iteración del dominio se resuelve de forma declarativa mediante `stream().map().reduce()`, eliminando bucles imperativos y variables mutables.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 01 - Parte A](images/day01-a.png)
+![Diagrama UML Dia 01 - Parte A](images/day01.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Es responsable exclusivamente de la capa de infraestructura (lectura del sistema de archivos I/O) y de orquestar la inyección de la entrada sin procesar hacia la capa de dominio.
