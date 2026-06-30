@@ -1,0 +1,18 @@
+# Día 12: Christmas Tree Farm (Parte A)
+
+## 1. Descripción
+El reto de la Parte A presenta un problema clásico de optimización combinatoria conocido como *Bin Packing 2D* (Empaquetado Bidimensional), categorizado como NP-Completo. El objetivo es determinar si un conjunto de formas geométricas irregulares (los regalos) puede confinarse dentro de los límites estrictos de una cuadrícula bidimensional (la región bajo el árbol), permitiendo rotaciones y reflexiones, pero prohibiendo estrictamente el solapamiento.
+
+Dada la naturaleza del problema, una implementación ingenua de búsqueda en profundidad (DFS) derivaría en una explosión combinatoria con una complejidad temporal inasumible de $O(N!)$. Por consiguiente, el diseño del sistema requiere una arquitectura algorítmica avanzada que combine Programación Dinámica (Memoización), heurísticas de poda geométrica y un control estricto del perfil de memoria en la Máquina Virtual de Java (Evitación del *Garbage Collector Overhead*).
+
+## 2. Metodología
+Se ha diseñado una arquitectura segregada en el dominio `software.aoc.day12.a` donde las entidades de datos (`ChristmasTreeFarm`, `PresentShape`, `TreeRegion`) son estrictamente inmutables. El motor algorítmico se concentra en la clase `TreeRegionPacker`, la cual orquesta la búsqueda a través de los siguientes mecanismos de alto rendimiento:
+
+* **Poda Heurística de Mayor a Menor (Largest-First Pruning):** Las formas se ordenan de forma ascendente por su área para extraer y evaluar siempre la pieza más restrictiva primero. Esto reduce exponencialmente las ramificaciones del árbol de búsqueda topológico en los primeros niveles de recursión.
+* **Mutación Local Encapsulada (WorkspaceGrid):** Para lograr un rendimiento de evaluación de colisiones en tiempo constante $O(1)$ sin instanciar millones de objetos `Set<Point>`, se ha integrado una clase anidada privada `WorkspaceGrid`. Esta clase gestiona una matriz de booleanos primitiva cuyo estado se muta y restaura, evadiendo la presión sobre el recolector de basura (GC).
+* **Programación Dinámica (Memoización):** Se implementa una caché de estados fallidos (`failedStates`) basada en el identificador de la pieza y la máscara de bits actual. Esto convierte el árbol de combinaciones infinitas en un Grafo Acíclico Dirigido (DAG) finito, truncando cualquier vía matemática que conduzca a un estado topológico previamente evaluado.
+
+## 3. Fundamentos y Principios
+* **Ocultación de Información (Information Hiding) y Transparencia Referencial:** Aunque `WorkspaceGrid` opera con estado mutable para maximizar el rendimiento hardware, esta clase es privada y está estrictamente confinada al ciclo de vida del método estático de evaluación. Desde la perspectiva del `ChristmasTreeFarmSolver`, el empaquetador es una función pura que no contamina el estado global del dominio.
+* **Código Expresivo y Evaluación Declarativa (Zero-IF Policy):** Por decisión arquitectónica, se ha optado intencionadamente por prescindir de las sentencias imperativas `if/else` en la lógica de *backtracking*. El flujo de decisión (evaluar, recursión, retroceso) se ha traducido a una expresión algebraica de cortocircuito booleano: `(colocar && recursión) || retirar`. Esto explota la evaluación perezosa nativa del compilador de Java, elevando la legibilidad matemática y manteniendo el rigor funcional
+* **Principio de Responsabilidad Única (SRP):** La lógica de manipulación matricial se delega en `PresentShapePermutator`, los atajos matemáticos (Guard Clauses sobre el área de confinamiento) se extraen a micro-métodos puros, y el cálculo de la instanciación principal reside en el Factory Method de `ChristmasTreeFarm`.

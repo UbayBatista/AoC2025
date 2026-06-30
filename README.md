@@ -45,7 +45,7 @@ A continuación, se detalla el progreso diario, destacando los patrones y princi
 |   10-B   | Factory (B) | - | OCP, SLAP, Optimización Lineal Entera | [day10-b.md](doc/day10-b.md) |
 |   11-A   | Reactor (A) | - | SRP, Ley de Deméter, DFS Declarativo | [day11-a.md](doc/day11-a.md) |
 |   11-B   | Reactor (B) | Method Object | DRY, SLAP, Tell Don't Ask, Programación Dinámica | [day11-b.md](doc/day11-b.md) |
-| **12-A** | *Pendiente* | - | - | - |
+|   12-A   | Christmas Tree Farm (A) | Factory Method | SRP, Information Hiding, Zero-IF Policy, Dynamic Programming, Largest-First Pruning | [day12-a.md](doc/day12-a.md) |
 
 ## 5. Instrucciones de Ejecución e Integración
 El proyecto sigue la estructura de directorios estándar de Maven.
