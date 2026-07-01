@@ -18,12 +18,12 @@ public class JoltageCalculatorTest {
             "234234234234278, 434234234278",
             "818181911112111, 888911112111"
     })
-    void should_calculate_max_12_digit_joltage_for_single_bank(String bankData, long expectedMaxJoltage) {
+    public void should_calculate_max_12_digit_joltage_for_single_bank(String bankData, long expectedMaxJoltage) {
         assertThat(JoltageCalculator.calculateMaxJoltage(bankData)).isEqualTo(expectedMaxJoltage);
     }
 
     @Test
-    void should_calculate_total_joltage_for_multiple_banks() {
+    public void should_calculate_total_joltage_for_multiple_banks() {
         List<String> banks = List.of(
                 "987654321111111",
                 "811111111111119",
@@ -34,7 +34,7 @@ public class JoltageCalculatorTest {
     }
 
     @Test
-    void should_throw_exception_when_bank_length_is_less_than_twelve() {
+    public void should_throw_exception_when_bank_length_is_less_than_twelve() {
         assertThatThrownBy(() -> JoltageCalculator.calculateMaxJoltage("12345678901"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("The battery bank must contain at least twelve elements");
