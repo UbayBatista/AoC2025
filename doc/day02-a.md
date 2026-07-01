@@ -24,7 +24,7 @@ Las pruebas se consolidaron en la suite `InvalidGiftIdCalculatorTest`, segmentan
 * **Paradigma Funcional y Rendimiento**: Se empleó intensivamente la API de Streams especializados (`LongStream`). La transición lógica mediante `flatMapToLong` y `mapToLong` erradica los bucles imperativos y suprime el impacto de rendimiento asociado a la instanciación de objetos envoltorio (*Autoboxing Overhead*).
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 02 - Parte A](images/day02.png)
+![Diagrama UML Dia 02 - Parte A](/images/day02.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada del componente ejecutable. Aísla completamente la infraestructura de lectura de archivos locales y elimina espacios en blanco innecesarios inyectando una cadena sanitizada.

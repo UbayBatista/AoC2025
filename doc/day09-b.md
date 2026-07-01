@@ -24,7 +24,7 @@ Las aserciones se aislaron para validar la precisión del motor analítico sin d
   * **Good Naming**: Se utilizaron identificadores explícitos (`rectangleMinBound`, `segmentStart`), logrando un código autodocumentado que elimina la ambigüedad algebraica.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 09 - Parte B](images/day09-b.png)
+![Diagrama UML Dia 09 - Parte B](/images/day09-b.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Responsable de la infraestructura, encapsula la lectura del fichero de entrada y proyecta las líneas de texto en una lista de entidades de dominio (Tile) antes de pasarlas al orquestador.

@@ -24,7 +24,7 @@ Las pruebas aseguran la localización de defectos distribuyendo las aserciones e
   * **Streams Segmentados**: En lugar de bucles iterativos, se combinaron `limit` y `skip` sobre el *stream* de entrada para fragmentar los datos de manera declarativa. La agregación booleana se resolvió elegantemente mediante `anyMatch`.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 05 - Parte A](images/day05-a.png)
+![Diagrama UML Dia 05 - Parte A](/images/day05-a.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Gestiona la infraestructura de entrada/salida para la lectura de archivos y orquesta el flujo inyectando los datos al parser y al motor evaluador.

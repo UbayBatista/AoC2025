@@ -25,7 +25,7 @@ La arquitectura de pruebas garantiza la estabilidad estructural del sistema sepa
   * **Ausencia de Bucles de Control**: La identificación de columnas y la instanciación de bloques se realiza mediante tuberías de datos (`IntStream.range().filter().mapToObj()`), erradicando las variables mutables de estado e iteración imperativa.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 06 - Parte A](images/day06.png)
+![Diagrama UML Dia 06 - Parte A](/images/day06.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Oculta la complejidad de la infraestructura de lectura del sistema de archivos e inyecta la cuadrícula de texto sin procesar en la capa de evaluación del dominio.

@@ -25,7 +25,7 @@ Las aserciones se aislaron para evaluar componentes puramente algorítmicos fren
   * El producto cartesiano (las combinaciones cruzadas de todos los vértices del grafo) se implementó sin bucles anidados `for` encapsulando índices mediante `IntStream.range` y `flatMap`.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 08 - Parte A](images/day08.png)
+![Diagrama UML Dia 08 - Parte A](/images/day08.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada a la aplicación. Centraliza la infraestructura de acceso a los ficheros locales e inyecta la lista de datos crudos directamente hacia el entorno de simulación del dominio.

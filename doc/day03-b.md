@@ -26,7 +26,7 @@ La clase `JoltageCalculatorTest` valida el nuevo contexto acotado garantizando l
   * **Reducción Funcional**: La búsqueda del dígito mayor en la ventana válida se resuelve de forma elegante mediante `IntStream.rangeClosed` acoplado a un `reduce`, preservando el índice del mayor candidato sin recurrir a variables centinela mutables.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 03 - Parte B](images/day03-b.png)
+![Diagrama UML Dia 03 - Parte B](/images/day03-b.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Responsable de la capa de infraestructura, realiza la lectura del archivo de datos bruto y transfiere el listado de cadenas resultantes hacia la capa de dominio.

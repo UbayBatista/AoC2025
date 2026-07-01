@@ -27,7 +27,7 @@ Las pruebas dividen la lógica algorítmica de la lógica estructural:
     * **Inmutabilidad de Diccionarios**: El parser hace uso de `Collectors.toUnmodifiableMap()`, sellando la topología del reactor para que permanezca invariante y protegida contra efectos secundarios durante toda la evaluación en memoria.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 11 - Parte A](images/day11-a.png)
+![Diagrama UML Dia 11 - Parte A](/images/day11-a.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Orquesta el flujo global aislando por completo las operaciones de entrada/salida (I/O) de archivos, inyectando un flujo depurado (sin líneas en blanco) en el parser.

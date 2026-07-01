@@ -26,7 +26,7 @@ Las pruebas se adaptaron para validar la nueva regla de negocio, garantizando el
   * **Mónadas para Control de Flujo**: En lugar de comprobaciones imperativas `if (last != null && overlaps)`, la lógica de fusión delega en `Optional.ofNullable(...).filter(...).ifPresentOrElse(...)`, garantizando seguridad contra nulos y expresividad declarativa.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 05 - Parte A](images/day05-b.png)
+![Diagrama UML Dia 05 - Parte A](/images/day05-b.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Gestiona la infraestructura de entrada/salida y orquesta el flujo pasando las líneas crudas hacia el parser y derivando el resultado al contador total.

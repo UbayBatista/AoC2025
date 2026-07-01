@@ -21,7 +21,7 @@ Las aserciones se ampliaron para validar la detección de ciclos y la completitu
   * **Algoritmo de Kruskal mediante Streams**: La resolución del Árbol de Expansión Mínima se implementó utilizando un *pipeline* declarativo puro. Las aristas, previamente ordenadas por distancia, son evaluadas secuencialmente mediante la operación `filter`. El uso de `skip(requiredConnections - 1)` permite omitir matemáticamente todas las aristas necesarias excepto la última, resolviendo la iteración sin recurrir a estructuras de control imperativas.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 08 - Parte B](images/day08.png)
+![Diagrama UML Dia 08 - Parte B](/images/day08.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada a la aplicación. Centraliza la infraestructura de acceso a los ficheros locales e inyecta la lista de datos crudos directamente hacia el entorno de simulación del dominio.

@@ -26,7 +26,7 @@ La suite `TreeRegionPackerTest` y `PresentShapePermutatorTest` aseguran que tant
     * **Heurística de Poda**: El ordenamiento de las piezas por tamaño ascendente es una optimización de "fail-fast" que descarta configuraciones inválidas en niveles superiores del árbol de recursión.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 12 - Parte A](images/day12.png)
+![Diagrama UML Dia 12 - Parte A](/images/day12.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada. Coordina la carga de los datos crudos y delega la ejecución de la lógica de negocio al ChristmasTreeFarmSolver.

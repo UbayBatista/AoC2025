@@ -25,7 +25,7 @@ Las pruebas se ampliaron para validar la casuística de los pasos intermedios, g
 * **Paradigma Funcional e Inmutabilidad**: La entidad `DialState` mantiene su naturaleza de `record` inmutable. Para calcular los pasos intermedios sin variables mutables, se empleó un enfoque declarativo puro: `IntStream.rangeClosed` genera el flujo de pasos, `map` proyecta las coordenadas topológicas mediante aritmética modular, `filter` aísla los cruces por cero, y `count` resuelve el agregado numérico final.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 01 - Parte B](images/day01.png)
+![Diagrama UML Dia 01 - Parte B](/images/day01.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Es responsable exclusivamente de la capa de infraestructura (lectura del sistema de archivos I/O) y de orquestar la inyección de la entrada sin procesar hacia la capa de dominio.

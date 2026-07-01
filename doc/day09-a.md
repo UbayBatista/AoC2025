@@ -24,7 +24,7 @@ Las aserciones se aislaron para evaluar la geometría matemática frente a la al
   * **Mónadas y Streams Primitivos**: La resolución se implementó sin variables de estado, utilizando `flatMapToLong` y `mapToLong` para evitar el *Autoboxing Overhead* de objetos numéricos. La operación terminal `max()` devuelve un `OptionalLong`, resuelto defensivamente mediante `orElse(0L)` para prevenir excepciones.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 09 - Parte A](images/day09-a.png)
+![Diagrama UML Dia 09 - Parte A](/images/day09-a.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Responsable de la infraestructura, encapsula la lectura del fichero de entrada y proyecta las líneas de texto en una lista de entidades de dominio (Tile) antes de pasarlas al motor de evaluación.

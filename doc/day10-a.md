@@ -24,7 +24,7 @@ Las pruebas se diseñaron para aislar el álgebra computacional del *parsing* te
   * **Eliminación Gaussiana Recursiva**: Se han sustituido los tradicionales bucles imperativos anidados por recursividad funcional (`reduce(system, pivot, col)`), evaluando el espacio de variables libres combinando álgebra de bits (máscaras y desplazamientos) con flujos de `Streams`.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 10 - Parte A](images/day10-a.png)
+![Diagrama UML Dia 10 - Parte A](/images/day10-a.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Encapsula la infraestructura de lectura de archivos y proyecta las cadenas de texto hacia el dominio ignorando las líneas en blanco.

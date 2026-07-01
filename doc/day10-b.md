@@ -24,7 +24,7 @@ Las pruebas garantizan la fiabilidad algorítmica y léxica frente a la evoluci�
   * **Mónadas para Control de Flujo**: Se empleó intensivamente `Optional<Integer>` en el optimizador (`validateAndCountPresses`). Esto permite filtrar elegantemente soluciones inválidas (fraccionarias o negativas) y combinar las ramificaciones funcionales a través de `reduce(JoltageOptimizer::combineOptionals)`, erradicando complejas sentencias condicionales.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 10 - Parte B](images/day10-b.png)
+![Diagrama UML Dia 10 - Parte B](/images/day10-b.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Gestiona la I/O, procesa las líneas crudas mediante el analizador léxico y delega el cálculo de la optimización global a la entidad factoría.

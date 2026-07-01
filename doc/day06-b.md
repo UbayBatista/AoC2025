@@ -23,7 +23,7 @@ Las pruebas garantizan la transición a la lectura vertical sin romper la estruc
     * **Acumulación de Cadenas**: La lectura top-down se resolvió mapeando espacialmente los caracteres y empleando el colector funcional `Collectors.joining()` para el ensamblaje de las cifras numéricas.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 06 - Parte B](images/day06.png)
+![Diagrama UML Dia 06 - Parte B](/images/day06.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Oculta la complejidad de la infraestructura de lectura del sistema de archivos e inyecta la matriz de texto cruda al evaluador.

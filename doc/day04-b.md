@@ -24,7 +24,7 @@ La suite `PaperGridTest` se amplió para validar la evolución del sistema a lo 
   * **Proyección de Estados (Streams)**: La operación de borrado se ejecuta funcionalmente aplicando un `filter` inverso (`!toRemove.contains(roll)`) sobre el Stream de coordenadas original.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 04 - Parte B](images/day04-b.png)
+![Diagrama UML Dia 04 - Parte B](/images/day04-b.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Gestiona estrictamente la capa de infraestructura interactuando con el sistema de archivos, inyectando las líneas de texto bruto al dominio.

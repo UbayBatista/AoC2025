@@ -24,7 +24,7 @@ Las pruebas se consolidaron en `JoltageCalculatorTest`, estructuradas de la sigu
   * **Resolución de Mónadas**: El valor máximo se extrae gestionando de forma segura la mónada `OptionalInt` devuelta por el operador terminal `.max()`, utilizando `.orElseThrow()` para garantizar la integridad determinista del sistema frente a fallos imprevistos de cálculo.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 03 - Parte A](images/day03-a.png)
+![Diagrama UML Dia 03 - Parte A](/images/day03-a.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Responsable de la capa de infraestructura, realiza la lectura del archivo de datos bruto y transfiere el listado de cadenas resultantes hacia la capa de dominio.

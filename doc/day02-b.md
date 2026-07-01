@@ -23,7 +23,7 @@ La suite `InvalidGiftIdCalculatorTest` se enriqueció para consolidar la nueva d
   * **Poda Matemática**: El predicado previo `filter(subLen -> isExactDivisor(...))` actúa como un heurístico de rendimiento, evitando costosas extracciones de subcadenas y comparaciones de texto (`String.repeat`) para longitudes que, por aritmética básica, jamás podrían cubrir la cadena completa.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 02 - Parte B](images/day02.png)
+![Diagrama UML Dia 02 - Parte B](/images/day02.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada del componente ejecutable. Aísla completamente la infraestructura de lectura de archivos locales y elimina espacios en blanco innecesarios inyectando una cadena sanitizada.

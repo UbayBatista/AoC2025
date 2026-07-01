@@ -24,7 +24,7 @@ Las aserciones se actualizaron para modelar la nueva naturaleza aditiva de las l
   * **Streams y Acumulación Declarativa**: Para gestionar la convergencia cuántica sin lógicas condicionales ni bucles iterativos, se proyectaron las bifurcaciones mediante `flatMap`. Posteriormente, se utilizó `Collectors.toMap` inyectando la referencia `Long::sum`. Esto delega la consolidación de claves duplicadas a una resolución puramente funcional y aditiva.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 07 - Parte A](images/day07.png)
+![Diagrama UML Dia 07 - Parte A](/images/day07.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada estricto de la aplicación. Gestiona la I/O, instanciando el colector topológico cuántico e inyectándole las directivas de texto del modelo físico sin procesar, refactorizado para reflejar la terminología de "líneas temporales".

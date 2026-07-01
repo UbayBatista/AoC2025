@@ -25,7 +25,7 @@ La suite `ConstrainedPathCounterTest` valida que el motor de búsqueda respete e
     * **Inmutabilidad Evolutiva**: El avance en la recursión (`traverseTo`) no muta el `PathContext`, sino que proyecta una nueva instancia, blindando el recorrido contra efectos secundarios.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 11 - Parte B](images/day11-b.png)
+![Diagrama UML Dia 11 - Parte B](/images/day11-b.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada. Orquesta la lectura de datos e invoca a la fachada ConstrainedPathCounter con los nodos de inicio, fin y requisitos específicos.

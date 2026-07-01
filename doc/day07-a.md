@@ -28,7 +28,7 @@ Las aserciones se aislaron de manera granular para evaluar los fenómenos físic
   * **Iteración mediante Reducción Declarativa**: La transición temporal sobre las filas del espacio métrico se implementó inyectando una función acumuladora (`accumulate`) en el operador terminal `.reduce()` de la API de Streams.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 07 - Parte A](images/day07.png)
+![Diagrama UML Dia 07 - Parte A](/images/day07.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada estricto de la aplicación. Gestiona la I/O, instanciando el colector topológico e inyectándole las directivas de texto del modelo físico sin procesar.
