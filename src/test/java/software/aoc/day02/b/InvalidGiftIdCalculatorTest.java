@@ -28,9 +28,7 @@ public class InvalidGiftIdCalculatorTest {
 
     @Test
     public void should_calculate_sum_for_single_range() {
-        String range = "11-22";
-        long sum = InvalidGiftIdCalculator.calculateSumOfInvalidIds(range);
-        assertThat(sum).isEqualTo(33L);
+        assertThat(InvalidGiftIdCalculator.calculateSumOfInvalidIds("11-22")).isEqualTo(33L);
     }
 
     @Test
@@ -40,7 +38,6 @@ public class InvalidGiftIdCalculatorTest {
                        1698522-1698528,446443-446449,38593856-38593862,565653-565659,
                        824824821-824824827,2121212118-2121212124
                        """;
-        long sum = InvalidGiftIdCalculator.calculateSumOfInvalidIds(input);
-        assertThat(sum).isEqualTo(4174379265L);
+        assertThat(InvalidGiftIdCalculator.calculateSumOfInvalidIds(input)).isEqualTo(4174379265L);
     }
 }
