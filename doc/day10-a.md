@@ -4,18 +4,32 @@
 El reto de la Parte A exige determinar el número mínimo de pulsaciones de botones necesario para configurar correctamente el estado de un conjunto de máquinas en una fábrica. Cada máquina posee una serie de indicadores luminosos y botones que actúan como conmutadores (toggles) sobre un subconjunto específico de luces. Matemáticamente, el problema se modela como la resolución de un sistema de ecuaciones lineales subdeterminado sobre el cuerpo finito $GF(2)$, donde el objetivo es encontrar el vector solución de menor peso (mínima cantidad de variables activas) dentro del espacio de soluciones posibles.
 
 ## 2. Metodología
-La solución se ha diseñado empleando una arquitectura orientada al dominio y un motor matemático puramente funcional. Se divide en los siguientes componentes principales:
-* **Factory, Machine y Button**: Modelo de dominio inmutable (implementado mediante `records`) que encapsula la estructura física de la fábrica. Se emplea el principio *Tell, Don't Ask*, donde la `Factory` asume la orquestación del cálculo total delegando en sus componentes, en lugar de actuar como un mero contenedor de datos (modelo anémico).
-* **MachineParser**: Componente encargado del análisis léxico mediante expresiones regulares (Regex), aislando el procesamiento de las cadenas de texto del modelo de negocio.
-* **EquationSystem y GaussianSolver**: Motor de álgebra lineal. `EquationSystem` encapsula el estado matricial asegurando inmutabilidad profunda. `GaussianSolver` aplica el algoritmo de eliminación de Gauss-Jordan mediante recursividad funcional y evalúa el espacio nulo (espacio de variables libres) utilizando álgebra de bits para garantizar el hallazgo del mínimo global de pulsaciones.
+La solución se ha diseñado empleando una arquitectura orientada al dominio y un motor matemático puramente funcional guiado por **TDD**. El diseño aísla completamente la ingestión léxica de las expresiones regulares respecto al motor de álgebra lineal, permitiendo probar la eliminación gaussiana y la resolución del espacio nulo de forma estricta y matemática.
 
-## 3. Fundamentos y Principios
+## 3. Tests
+Las pruebas se diseñaron para aislar el álgebra computacional del *parsing* textual:
+* **`MachineParserTest`**: Valida que las expresiones regulares extraigan correctamente el estado objetivo `[...]` y las botoneras `(...)`, verificando además que se ignore activamente (YAGNI) la configuración de voltaje `{...}` no requerida por las reglas de negocio actuales.
+* **`GaussianSolverTest`**: Aísla el motor algebraico. Suministra entidades pre-parseadas y valida que la reducción matricial y la exploración combinatoria del espacio nulo devuelvan el mínimo global de pulsaciones exacto para cada máquina.
+* **`FactoryTest`**: Prueba de integración que orquesta el flujo completo de una factoría con múltiples máquinas, validando la sumatoria total del sistema.
+
+## 4. Fundamentos, Principios, Patrones y Técnicas
 * **CAMA y SOLID**:
-    * **Responsabilidad Única (SRP)**: La lógica matemática de eliminación gaussiana (`GaussianSolver`), la representación de la matriz (`EquationSystem`) y la ingesta de datos (`MachineParser`) están estrictamente separadas, garantizando una alta cohesión.
-    * **Inmutabilidad Profunda**: Se ha blindado el estado mediante copias defensivas (`List.copyOf` y clonación de matrices en `EquationSystem`). Ningún método produce efectos secundarios, devolviendo siempre nuevas instancias de la matriz para preservar la pureza funcional.
+  * **Responsabilidad Única (SRP)**: La lógica matemática de eliminación gaussiana (`GaussianSolver`), la representación estructural de la matriz (`EquationSystem`) y la ingesta de datos (`MachineParser`) están estrictamente separadas, garantizando una altísima cohesión.
+  * **Tell, Don't Ask**: La entidad `Factory` orquesta el cálculo delegando la creación del sistema y su resolución sin inspeccionar el contenido de las máquinas, actuando como un verdadero servicio de dominio.
 * **Clean Code**:
-    * **YAGNI (You Aren't Gonna Need It)**: El analizador léxico ignora deliberadamente los requerimientos de voltaje (`{...}`) especificados en la entrada, al no ser necesarios para la lógica actual, evitando el sobre-diseño.
-    * **Erradicación de la Obsesión por los Primitivos (Good Naming)**: La encapsulación de la matriz primitiva `int[][]` dentro de `EquationSystem` dota al código de semántica, permitiendo exponer un contrato basado en el dominio matemático (ej. `swapRows`, `eliminate`) y ocultando los detalles de implementación de bajo nivel.
-* **Paradigma Funcional y Algoritmia**:
-    * Se han sustituido completamente los bucles imperativos por la API de `Streams` (`IntStream`).
-    * Se utiliza la mónada `Optional` en la búsqueda de pivotes para eliminar la ramificación condicional basada en comprobaciones de nulidad o valores de error (ej. `-1`), logrando un flujo de control declarativo mediante *method chaining* (`.map()`, `.orElseGet()`).
+  * **YAGNI (You Aren't Gonna Need It)**: El analizador léxico ignora los requerimientos de voltaje para evitar el sobre-diseño y mantener el foco en la regla de negocio presente.
+  * **Erradicación de la Obsesión por los Primitivos**: La encapsulación de la matriz primitiva `int[][]` dentro de `EquationSystem` dota al código de semántica, permitiendo exponer un contrato basado en el dominio matemático (ej. `swapRows`, `eliminate`) y ocultando los detalles de implementación en memoria.
+* **Paradigma Funcional y Algoritmia Avanzada**:
+  * **Inmutabilidad Profunda (Deep Immutability)**: Se ha blindado el estado de `EquationSystem`. Operaciones como `swapRows` o `eliminate` clonan la matriz interna y devuelven nuevas instancias. Ningún método produce efectos secundarios.
+  * **Eliminación Gaussiana Recursiva**: Se han sustituido los tradicionales bucles imperativos anidados por recursividad funcional (`reduce(system, pivot, col)`), evaluando el espacio de variables libres combinando álgebra de bits (máscaras y desplazamientos) con flujos de `Streams`.
+
+## 5. Diagrama UML
+![Diagrama UML Dia 10 - Parte A](images/day10-a.png)
+
+## 6. Descripción de las Clases
+* **Main**: Punto de entrada de la aplicación. Encapsula la infraestructura de lectura de archivos y proyecta las cadenas de texto hacia el dominio ignorando las líneas en blanco.
+* **Factory**: Orquestador funcional del dominio. Encapsula la colección de máquinas y coordina la transformación de cada una en un sistema de ecuaciones para su posterior resolución y acumulación de resultados.
+* **MachineParser**: Analizador léxico utilitario. Utiliza expresiones regulares (Regex) y la API de Streams para extraer exclusivamente los datos relevantes al problema actual (estado y botones), aplicando el principio YAGNI al descartar la información de voltaje.
+* **EquationSystem**: Entidad matemática (Value Object). Envuelve una matriz primitiva bidimensional aplicando inmutabilidad profunda. Expone operaciones matriciales algebraicas (permutación de filas, eliminación mediante XOR) garantizando la pureza funcional al retornar nuevas instancias en cada operación.
+* **GaussianSolver**: Motor de álgebra lineal. Implementa el algoritmo de eliminación de Gauss-Jordan sobre el cuerpo finito GF(2) mediante recursión funcional. Explora el espacio nulo de variables libres utilizando máscaras de bits para aislar la combinación que requiere el mínimo absoluto de pulsaciones.
+* **Machine y Button**: Entidades de dominio puras (records) que actúan como contenedores inmutables de la configuración física de cada componente de la factoría.
