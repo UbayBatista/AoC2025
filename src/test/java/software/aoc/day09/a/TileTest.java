@@ -15,10 +15,7 @@ public class TileTest {
 
     @Test
     public void should_calculate_correct_area_with_another_tile() {
-        Tile tile1 = new Tile(2, 5);
-        Tile tile2 = new Tile(9, 7);
-
-        assertThat(tile1.calculateAreaWith(tile2)).isEqualTo(24);
+        assertThat(new Tile(2, 5).calculateAreaWith(new Tile(9, 7))).isEqualTo(24);
     }
 
     @Test
