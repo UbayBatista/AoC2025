@@ -4,15 +4,30 @@
 El reto de la Parte A consiste en identificar, dentro de un almacén bidimensional, cuántos rollos de papel (`@`) resultan "accesibles" para las carretillas elevadoras. La regla de negocio determina que un rollo es accesible si tiene estrictamente menos de cuatro rollos en sus ocho posiciones adyacentes. El objetivo del dominio es procesar la cuadrícula y devolver este recuento total.
 
 ## 2. Metodología
-Se aplicó estrictamente el ciclo **TDD (Test-Driven Development)**. En la fase RED, se diseñó una suite de pruebas con JUnit y AssertJ que incluyó el escenario del enunciado y pruebas de frontera (rollo aislado y rollo bloqueado), asegurando la localización de defectos (*Defect Localization*). En la fase GREEN, se implementó la solución adoptando desde el principio un enfoque funcional con la API de `Streams` para garantizar la inmutabilidad de los datos.
+Se aplicó estrictamente el ciclo **TDD (Test-Driven Development)**. En la fase RED, se diseñó una suite de pruebas con JUnit y AssertJ que incluyó el escenario del enunciado base y aserciones orientadas a límites de frontera (como un rollo completamente aislado o uno bloqueado). En la fase GREEN, se implementó la solución adoptando desde el principio un enfoque puramente funcional y topológico, proyectando la cuadrícula sobre un conjunto matemático de coordenadas para evaluar las adyacencias.
 
-## 3. Fundamentos y Principios
-* **CAMA**: La **alta cohesión** se consigue al separar la lógica geométrica en el `record` `Coordinate` y la evaluación del conjunto en `PaperGrid`. El **bajo acoplamiento** se asegura mediante el uso de objetos inmutables sin efectos secundarios.
-* **SOLID**:
-    * **SRP (Responsabilidad Única)**: Existe una separación estricta; `Main` coordina exclusivamente la infraestructura de entrada/salida, mientras que `PaperGrid` evalúa la lógica del dominio.
-    * **Ley de Demeter (LoD)**: `Coordinate` calcula sus adyacencias internamente (`neighbors()`), impidiendo que `PaperGrid` manipule sus ejes `x` e `y` para realizar operaciones geométricas.
+## 3. Tests
+La suite `PaperGridTest` asegura la correctitud algorítmica mediante tres niveles de aislamiento (*Defect Localization*):
+* **Prueba de Frontera - Aislamiento Absoluto**: Se evalúa un rollo único sin vecinos (`should_identify_isolated_roll_as_accessible`), garantizando que la ausencia de adyacencias se interprete matemáticamente como `< 4`.
+* **Prueba de Frontera - Bloqueo Absoluto**: Se evalúa un rollo completamente rodeado en una matriz de $3 \times 3$ (`should_identify_surrounded_roll_as_inaccessible`), validando el límite máximo de saturación de la regla de negocio.
+* **Prueba de Integración Topológica**: Comprueba que el Factory Method (`from`) instancie correctamente el estado desde cadenas de texto y el servicio resuelva las múltiples condiciones parciales del almacén global (ejemplo del enunciado).
+
+## 4. Fundamentos, Principios, Patrones y Técnicas
+* **CAMA y SOLID**:
+  * **Ley de Deméter (LoD) y Bajo Acoplamiento**: La entidad `Coordinate` calcula sus adyacencias internamente (`neighbors()`), impidiendo que `PaperGrid` deba interrogar sus ejes $x$ e $y$ para realizar cálculos espaciales externos.
+  * **SRP (Responsabilidad Única)**: Existe una separación estricta; `Main` coordina la infraestructura de entrada/salida (I/O), mientras que `PaperGrid` evalúa exclusivamente las reglas de distribución del dominio.
 * **Clean Code**:
-    * Se empleó el patrón **Factory Method** (`PaperGrid.from()`) para abstraer la complejidad del *parsing* espacial.
-    * El dominio se estructuró en **micro-métodos** (`isAccessible`), operando en un único nivel de abstracción con nombres descriptivos (*Good Naming*).
-    * Se aplicó programación defensiva en la clase `Main`, bloqueando su instanciación con un constructor privado que lanza `UnsupportedOperationException`.
-* **Paradigma Funcional y Streams API**: Se sustituyó la iteración imperativa clásica por un enfoque declarativo. Se empleó `IntStream.range` y `flatMap` para proyectar el espacio bidimensional de forma inmutable, resolviendo el conteo final mediante predicados (`filter`) y el operador terminal `.count()`.
+  * **Factory Method**: Se empleó el patrón de creación `PaperGrid.from(List<String>)` para aislar y abstraer la complejidad del parseo espacial, dejando los constructores estándar cerrados para uso interno.
+  * **SLAP (Single Level of Abstraction Principle)**: El dominio operativo delega la regla booleana en el micro-método `isAccessible`, manteniendo el método coordinador `countAccessibleRolls` en un nivel de lectura declarativa fluida.
+* **Paradigma Funcional y Optimización**:
+  * **Colecciones Inmutables**: El uso de `Set.copyOf(rolls)` previene cualquier mutación temporal o externa.
+  * **Mapeo Espacial Constante**: Se transformó la representación tabular tradicional (arrays 2D) en un `Set` matemático. Esto optimiza la búsqueda de los vecinos (`rolls::contains`) a una complejidad temporal $O(1)$.
+  * **Proyección Plana Bidimensional**: Se utilizó `IntStream.range` combinado con `flatMap` para iterar el espacio de forma inmutable, filtrando y transformando solo los caracteres válidos en coordenadas instanciadas.
+
+## 5. Diagrama UML
+![Diagrama UML Dia 04 - Parte A](images/day04.png)
+
+## 6. Descripción de las Clases
+* **Main**: Punto de entrada de la aplicación. Gestiona estrictamente la capa de infraestructura interactuando con el sistema de archivos, inyectando las líneas de texto bruto al dominio.
+* **PaperGrid**: Entidad orquestadora del almacén topológico. Utiliza un Factory Method estático para convertir un listado de cadenas en un plano espacial inmutable (Set), encargándose de aplicar la regla de negocio para el filtrado y recuento de los rollos accesibles.
+* **Coordinate**: Entidad fundamental (Value Object) modelada como record inmutable. Encapsula su propia posición espacial y es autosuficiente para proyectar topológicamente las ocho coordenadas adyacentes a sí misma mediante la generación de un flujo (Stream).
