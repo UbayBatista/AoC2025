@@ -25,7 +25,7 @@ La suite `PaperGridTest` asegura la correctitud algorítmica mediante tres nivel
   * **Proyección Plana Bidimensional**: Se utilizó `IntStream.range` combinado con `flatMap` para iterar el espacio de forma inmutable, filtrando y transformando solo los caracteres válidos en coordenadas instanciadas.
 
 ## 5. Diagrama UML
-![Diagrama UML Dia 04 - Parte A](images/day04.png)
+![Diagrama UML Dia 04 - Parte A](images/day04-a.png)
 
 ## 6. Descripción de las Clases
 * **Main**: Punto de entrada de la aplicación. Gestiona estrictamente la capa de infraestructura interactuando con el sistema de archivos, inyectando las líneas de texto bruto al dominio.
