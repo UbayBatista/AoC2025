@@ -6,13 +6,35 @@ El reto de la Parte A presenta un problema clásico de optimización combinatori
 Dada la naturaleza del problema, una implementación ingenua de búsqueda en profundidad (DFS) derivaría en una explosión combinatoria con una complejidad temporal inasumible de $O(N!)$. Por consiguiente, el diseño del sistema requiere una arquitectura algorítmica avanzada que combine Programación Dinámica (Memoización), heurísticas de poda geométrica y un control estricto del perfil de memoria en la Máquina Virtual de Java (Evitación del *Garbage Collector Overhead*).
 
 ## 2. Metodología
-Se ha diseñado una arquitectura segregada en el dominio `software.aoc.day12.a` donde las entidades de datos (`ChristmasTreeFarm`, `PresentShape`, `TreeRegion`) son estrictamente inmutables. El motor algorítmico se concentra en la clase `TreeRegionPacker`, la cual orquesta la búsqueda a través de los siguientes mecanismos de alto rendimiento:
+Se ha implementado un motor de **Backtracking (Búsqueda Exhaustiva con Poda)** para explorar el espacio de soluciones. Dada la naturaleza NP-completa del problema de empaquetado, se introdujeron heurísticas de ordenación (*Sort by Ascending Size*) para podar el árbol de búsqueda de forma eficiente. El sistema garantiza la unicidad de las piezas mediante la normalización de coordenadas tras cada transformación geométrica.
 
-* **Poda Heurística de Mayor a Menor (Largest-First Pruning):** Las formas se ordenan de forma ascendente por su área para extraer y evaluar siempre la pieza más restrictiva primero. Esto reduce exponencialmente las ramificaciones del árbol de búsqueda topológico en los primeros niveles de recursión.
-* **Mutación Local Encapsulada (WorkspaceGrid):** Para lograr un rendimiento de evaluación de colisiones en tiempo constante $O(1)$ sin instanciar millones de objetos `Set<Point>`, se ha integrado una clase anidada privada `WorkspaceGrid`. Esta clase gestiona una matriz de booleanos primitiva cuyo estado se muta y restaura, evadiendo la presión sobre el recolector de basura (GC).
-* **Programación Dinámica (Memoización):** Se implementa una caché de estados fallidos (`failedStates`) basada en el identificador de la pieza y la máscara de bits actual. Esto convierte el árbol de combinaciones infinitas en un Grafo Acíclico Dirigido (DAG) finito, truncando cualquier vía matemática que conduzca a un estado topológico previamente evaluado.
+## 3. Tests
+La suite `TreeRegionPackerTest` y `PresentShapePermutatorTest` aseguran que tanto el motor geométrico como el de empaquetado funcionen bajo restricciones estrictas:
+* **`PresentShapePermutatorTest`**: Valida que la generación de simetrías produzca exactamente las 8 orientaciones posibles (rotaciones + reflexiones) y que todas se normalicen al origen $(0,0)$.
+* **`TreeRegionPackerTest`**: Valida casos de éxito en empaquetado de alta densidad y casos de falla por sobrepoblación (sobrepasar el área total de la región), asegurando que el *backtracker* retroceda correctamente cuando una disposición es inviable.
 
-## 3. Fundamentos y Principios
-* **Ocultación de Información (Information Hiding) y Transparencia Referencial:** Aunque `WorkspaceGrid` opera con estado mutable para maximizar el rendimiento hardware, esta clase es privada y está estrictamente confinada al ciclo de vida del método estático de evaluación. Desde la perspectiva del `ChristmasTreeFarmSolver`, el empaquetador es una función pura que no contamina el estado global del dominio.
-* **Código Expresivo y Evaluación Declarativa (Zero-IF Policy):** Por decisión arquitectónica, se ha optado intencionadamente por prescindir de las sentencias imperativas `if/else` en la lógica de *backtracking*. El flujo de decisión (evaluar, recursión, retroceso) se ha traducido a una expresión algebraica de cortocircuito booleano: `(colocar && recursión) || retirar`. Esto explota la evaluación perezosa nativa del compilador de Java, elevando la legibilidad matemática y manteniendo el rigor funcional
-* **Principio de Responsabilidad Única (SRP):** La lógica de manipulación matricial se delega en `PresentShapePermutator`, los atajos matemáticos (Guard Clauses sobre el área de confinamiento) se extraen a micro-métodos puros, y el cálculo de la instanciación principal reside en el Factory Method de `ChristmasTreeFarm`.
+## 4. Fundamentos, Principios, Patrones y Técnicas
+* **CAMA y SOLID**:
+    * **Single Level of Abstraction (SLAP)**: La clase `TreeRegionPacker` descompone el empaquetado en pasos lógicos: filtrado de área, ordenación heurística y exploración recursiva.
+    * **Tell, Don't Ask**: La lógica de colisión reside dentro de `WorkspaceGrid`. El motor de búsqueda no consulta si un bloque es ocupado, sino que ordena al grid colocarlo (`grid.place`).
+* **Clean Code**:
+    * **Encapsulamiento de Estado**: `WorkspaceGrid` utiliza un arreglo primitivo `boolean[][]` para maximizar la velocidad de acceso, pero oculta completamente esta estructura mediante una interfaz limpia basada en coordenadas (`Point`).
+* **Paradigma Funcional y Algoritmia**:
+    * **Programación Dinámica** (Pre-cálculo de Estados): Se utiliza buildPlacementCache para pre-computar todas las variantes geométricas (8 orientaciones) de cada forma, transformando una operación costosa en una consulta $O(1)$ durante el backtracking.
+    * **Normalización de Formas**: Para evitar el almacenamiento redundante, se normaliza cada pieza desplazando sus coordenadas mínimas al origen $(0,0)$.
+    * **Algoritmo de Backtracking (Recursión)**: Se evita la mutabilidad excesiva utilizando el patrón de "colocar-explorar-deshacer". El grid se revierte tras cada intento fallido, permitiendo explorar todas las combinaciones con un único espacio de memoria en $O(1)$ por intento.
+    * **Heurística de Poda**: El ordenamiento de las piezas por tamaño ascendente es una optimización de "fail-fast" que descarta configuraciones inválidas en niveles superiores del árbol de recursión.
+
+## 5. Diagrama UML
+![Diagrama UML Dia 12 - Parte A](images/day12.png)
+
+## 6. Descripción de las Clases
+* **Main**: Punto de entrada. Coordina la carga de los datos crudos y delega la ejecución de la lógica de negocio al ChristmasTreeFarmSolver.
+* **ChristmasTreeFarmSolver**: Clase de servicio que orquesta la resolución del problema: inicia el análisis del cultivo y cuenta cuántas regiones cumplen con los requisitos de empaquetado.
+* **ChristmasTreeFarm**: Entidad (record) que actúa como contenedor principal de todos los datos parseados. Incluye la lógica de carga (from) que divide el archivo en bloques (formas vs. regiones).
+* **TreeRegion**: Entidad que define una región de cultivo, sus dimensiones y, crucialmente, el mapa de requisitos de formas (requirements).
+* **TreeRegionPacker**: Motor principal de backtracking. Es la pieza central que intenta encajar las formas en el espacio disponible utilizando la clase interna WorkspaceGrid.
+* **WorkspaceGrid**: Estructura de datos interna (tablero) que realiza las operaciones de bajo nivel de colocación y eliminación de piezas (Backtracking puro).
+* **PresentShapePermutator**: Servicio utilitario que genera todas las orientaciones geométricas posibles de una pieza (8 orientaciones: 4 rotaciones y sus respectivas reflexiones).
+* **PresentShape**: Objeto de dominio que encapsula la forma de una pieza mediante un conjunto de Point. Contiene la lógica para normalizar las piezas y asegurar que se evalúen desde el origen $(0,0)$.
+* **Point**: Objeto geométrico básico (Value Object) que permite realizar transformaciones espaciales (rotación, traslación, reflexión) de forma inmutable.
