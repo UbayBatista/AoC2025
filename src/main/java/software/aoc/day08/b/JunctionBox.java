@@ -6,16 +6,16 @@ public record JunctionBox(long x, long y, long z) {
 
     public static JunctionBox parse(String line) {
         return Optional.of(line.split(","))
-                .filter(parts -> parts.length == 3)
-                .map(JunctionBox::createFromParts)
+                .filter(coords -> coords.length == 3)
+                .map(JunctionBox::createFromCoords)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordinate format: " + line));
     }
 
-    private static JunctionBox createFromParts(String[] parts) {
+    private static JunctionBox createFromCoords(String[] coords) {
         return new JunctionBox(
-                Long.parseLong(parts[0].trim()),
-                Long.parseLong(parts[1].trim()),
-                Long.parseLong(parts[2].trim())
+                Long.parseLong(coords[0].trim()),
+                Long.parseLong(coords[1].trim()),
+                Long.parseLong(coords[2].trim())
         );
     }
 
